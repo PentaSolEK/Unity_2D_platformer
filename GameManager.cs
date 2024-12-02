@@ -5,13 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public static bool pause = false;
     private void Update()
     {
-        // Проверяем нажатие кнопки Esc
+        // РџСЂРѕРІРµСЂСЏРµРј РЅР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё Esc
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // Если меню паузы уже открыто, закрываем его; иначе, открываем
-            if (pauseMenuUI.activeSelf)
+            // Р•СЃР»Рё РјРµРЅСЋ РїР°СѓР·С‹ СѓР¶Рµ РѕС‚РєСЂС‹С‚Рѕ, Р·Р°РєСЂС‹РІР°РµРј РµРіРѕ; РёРЅР°С‡Рµ, РѕС‚РєСЂС‹РІР°РµРј
+            if (pause)
             {
                 ResumeGame();
             }
@@ -23,19 +24,21 @@ public class GameManager : MonoBehaviour
     }
     void PauseGame()
     {
-        // Останавливаем игру
+        // РћСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёРіСЂСѓ
+        pause = true;
         Time.timeScale = 0f;
 
-        // Включаем меню паузы
+        // Р’РєР»СЋС‡Р°РµРј РјРµРЅСЋ РїР°СѓР·С‹
         pauseMenuUI.SetActive(true);
     }
 
     public void ResumeGame()
     {
-        // Возобновляем игру
+        // Р’РѕР·РѕР±РЅРѕРІР»СЏРµРј РёРіСЂСѓ
+        pause = false;
         Time.timeScale = 1f;
 
-        // Выключаем меню паузы
+        // Р’С‹РєР»СЋС‡Р°РµРј РјРµРЅСЋ РїР°СѓР·С‹
         pauseMenuUI.SetActive(false);
     }
 }
