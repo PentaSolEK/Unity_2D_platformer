@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class BossOfTheGym : Monsters
 {
-    public Transform player; // Ссылка на объект игрока
-    public float agroRange = 10f; // Расстояние, на котором монстр заметит игрока
-    public float attackRange = 2f; // Расстояние, на котором монстр начнет атаковать
-    public float moveSpeed = 3f; // Скорость передвижения монстра
-    public float attackCooldown = 2f; // Время перезарядки атаки
+    public Transform player; // РЎСЃС‹Р»РєР° РЅР° РѕР±СЉРµРєС‚ РёРіСЂРѕРєР°
+    public float agroRange = 10f; // Р Р°СЃСЃС‚РѕСЏРЅРёРµ, РЅР° РєРѕС‚РѕСЂРѕРј РјРѕРЅСЃС‚СЂ Р·Р°РјРµС‚РёС‚ РёРіСЂРѕРєР°
+    public float attackRange = 5f; // Р Р°СЃСЃС‚РѕСЏРЅРёРµ, РЅР° РєРѕС‚РѕСЂРѕРј РјРѕРЅСЃС‚СЂ РЅР°С‡РЅРµС‚ Р°С‚Р°РєРѕРІР°С‚СЊ
+    public float moveSpeed = 3f; // РЎРєРѕСЂРѕСЃС‚СЊ РїРµСЂРµРґРІРёР¶РµРЅРёСЏ РјРѕРЅСЃС‚СЂР°
+    public float attackCooldown = 0.5f; // Р’СЂРµРјСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё Р°С‚Р°РєРё
     public Transform attackPos;
     public LayerMask hero;
 
     private Animator animator;
-    private float lastAttackTime; // Время последней атаки
+    private float lastAttackTime; // Р’СЂРµРјСЏ РїРѕСЃР»РµРґРЅРµР№ Р°С‚Р°РєРё
 
 
     public States State
@@ -26,34 +26,33 @@ public class BossOfTheGym : Monsters
     {
         animator = GetComponent<Animator>();
         lives = 15;
-        lastAttackTime = -attackCooldown; // Инициализация, чтобы босс мог атаковать сразу
+        lastAttackTime = -attackCooldown; // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ, С‡С‚РѕР±С‹ Р±РѕСЃСЃ РјРѕРі Р°С‚Р°РєРѕРІР°С‚СЊ СЃСЂР°Р·Сѓ
     }
 
 
     void Update()
     {
-        // Проверяем расстояние до игрока
+        // РџСЂРѕРІРµСЂСЏРµРј СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ РёРіСЂРѕРєР°
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-
-        // Если игрок в пределах зоны видимости монстра
+        // Р•СЃР»Рё РёРіСЂРѕРє РІ РїСЂРµРґРµР»Р°С… Р·РѕРЅС‹ РІРёРґРёРјРѕСЃС‚Рё РјРѕРЅСЃС‚СЂР°
         if (distanceToPlayer <= agroRange && distanceToPlayer > attackRange)
         {
             ChasePlayer();
         }
 
-        // Если расстояние до игрока меньше или равно расстоянию атаки, монстр атакует
+        // Р•СЃР»Рё СЂР°СЃСЃС‚РѕСЏРЅРёРµ РґРѕ РёРіСЂРѕРєР° РјРµРЅСЊС€Рµ РёР»Рё СЂР°РІРЅРѕ СЂР°СЃСЃС‚РѕСЏРЅРёСЋ Р°С‚Р°РєРё, РјРѕРЅСЃС‚СЂ Р°С‚Р°РєСѓРµС‚
         else if (distanceToPlayer <= attackRange)
         {
-            // Проверяем, прошла ли перезарядка
+            // РџСЂРѕРІРµСЂСЏРµРј, РїСЂРѕС€Р»Р° Р»Рё РїРµСЂРµР·Р°СЂСЏРґРєР°
             if (Time.time >= lastAttackTime + attackCooldown)
             {
                 Attack();
-                lastAttackTime = Time.time; // Обновляем время последней атаки
+                lastAttackTime = Time.time; // РћР±РЅРѕРІР»СЏРµРј РІСЂРµРјСЏ РїРѕСЃР»РµРґРЅРµР№ Р°С‚Р°РєРё
             }
             else
             {
-                // Если перезарядка не прошла, возвращаемся в idle
+                // Р•СЃР»Рё РїРµСЂРµР·Р°СЂСЏРґРєР° РЅРµ РїСЂРѕС€Р»Р°, РІРѕР·РІСЂР°С‰Р°РµРјСЃСЏ РІ idle
                 State = States.idle;
             }
         }
@@ -62,16 +61,16 @@ public class BossOfTheGym : Monsters
             StopChasingPlayer();
         }
 
-        // Передаем информацию в аниматор для управления анимациями
+        // РџРµСЂРµРґР°РµРј РёРЅС„РѕСЂРјР°С†РёСЋ РІ Р°РЅРёРјР°С‚РѕСЂ РґР»СЏ СѓРїСЂР°РІР»РµРЅРёСЏ Р°РЅРёРјР°С†РёСЏРјРё
     }
 
     void ChasePlayer()
     {
         State = States.bossrun;
         Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0f; // Устанавливаем y в 0, чтобы избежать вращения по вертикальной оси
+        direction.y = 0f; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј y РІ 0, С‡С‚РѕР±С‹ РёР·Р±РµР¶Р°С‚СЊ РІСЂР°С‰РµРЅРёСЏ РїРѕ РІРµСЂС‚РёРєР°Р»СЊРЅРѕР№ РѕСЃРё
 
-        // Перемещаем монстра в направлении игрока
+        // РџРµСЂРµРјРµС‰Р°РµРј РјРѕРЅСЃС‚СЂР° РІ РЅР°РїСЂР°РІР»РµРЅРёРё РёРіСЂРѕРєР°
         transform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
     }
 
@@ -84,11 +83,17 @@ public class BossOfTheGym : Monsters
     private void Attack()
     {
         int randomAttack = Random.Range(1, 3);
-        if (randomAttack == 1) State = States.bossattack1;
-        if (randomAttack == 2) State = States.bossattack2;
-
-        // Переход в состояние idle после атаки
-        Invoke("SetIdleState", 0.5f); // Вызываем метод для перехода в idle с задержкой
+        switch (randomAttack)
+        {
+            case 1:
+                State = States.bossattack1;
+                break;
+            case 2:
+                State = States.bossattack2;
+                break;
+        }
+        // РџРµСЂРµС…РѕРґ РІ СЃРѕСЃС‚РѕСЏРЅРёРµ idle РїРѕСЃР»Рµ Р°С‚Р°РєРё
+        Invoke("SetIdleState", 0.5f); // Р’С‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РґР»СЏ РїРµСЂРµС…РѕРґР° РІ idle СЃ Р·Р°РґРµСЂР¶РєРѕР№ // Р’С‹Р·С‹РІР°РµРј РјРµС‚РѕРґ РґР»СЏ РїРµСЂРµС…РѕРґР° РІ idle СЃ Р·Р°РґРµСЂР¶РєРѕР№
     }
 
     private void OnAttack()
