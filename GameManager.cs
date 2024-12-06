@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // Проверяем нажатие кнопки Esc
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && Hero.IsAlive())
         {
             // Если меню паузы уже открыто, закрываем его; иначе, открываем
             if (pause)
