@@ -4,7 +4,7 @@ using UnityEngine;
 public class Hero : MonoBehaviour
 {
     [SerializeField] private float speed = 2f;
-    [SerializeField] private double lives = 5;
+    [SerializeField] public static double lives = 5;
     [SerializeField] private float jumpForce = 50f;
     [SerializeField] private ContactFilter2D platform;
 
@@ -44,29 +44,31 @@ public class Hero : MonoBehaviour
     private void Update()
     {
         hpsprite.sprite = health[(int)lives];
-
-        if (!GameManager.pause && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButton("Fire1"))
-            State = States.idle;
-
-        if (!GameManager.pause && IsGrounded && Input.GetButton("Horizontal") && !Input.GetButtonDown("Jump"))
+        if (IsAlive())
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            Run(horizontalInput);
-        }
+            if (!GameManager.pause && Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButton("Fire1"))
+                State = States.idle;
 
-        if (!GameManager.pause && IsGrounded && Input.GetButtonDown("Jump") && !Input.GetButton("Horizontal"))
-        {
-            Jump();
-        }
+            if (!GameManager.pause && IsGrounded && Input.GetButton("Horizontal") && !Input.GetButtonDown("Jump"))
+            {
+                float horizontalInput = Input.GetAxis("Horizontal");
+                Run(horizontalInput);
+            }
 
-        if (!GameManager.pause && IsGrounded && Input.GetButtonDown("Jump") && Input.GetButton("Horizontal"))
-        {
-            walkjump();
-        }
+            if (!GameManager.pause && IsGrounded && Input.GetButtonDown("Jump") && !Input.GetButton("Horizontal"))
+            {
+                Jump();
+            }
 
-        if (!GameManager.pause &&  Input.GetButtonDown("Fire1") && !Input.GetButton("Horizontal"))
-        {
-            Attack();
+            if (!GameManager.pause && IsGrounded && Input.GetButtonDown("Jump") && Input.GetButton("Horizontal"))
+            {
+                walkjump();
+            }
+
+            if (!GameManager.pause && Input.GetButtonDown("Fire1") && !Input.GetButton("Horizontal"))
+            {
+                Attack();
+            }
         }
     }
 
@@ -118,7 +120,7 @@ public class Hero : MonoBehaviour
 
     public virtual void GetDamage()
     {
-        lives -= 0.5;
+        lives--;
         if (lives < 1)
         {
             Die();
@@ -129,6 +131,7 @@ public class Hero : MonoBehaviour
     {
         Diescreen.SetActive(true);
         Time.timeScale = 0f;
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -166,6 +169,15 @@ public class Hero : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         isRecharged = true;
+    }
+
+    public static bool IsAlive()
+    {
+        if (lives == 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     public enum States
