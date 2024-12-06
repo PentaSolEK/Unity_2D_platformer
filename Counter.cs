@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Counter : MonoBehaviour
 {
     private TextMeshProUGUI _field;
-    private int _score = 0;
+    public static int _score;
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class Counter : MonoBehaviour
 
     public void Increase()
     {
-        _score += 1;
+        _score += 5;
         _field.text = _score.ToString();    
     }
 }
