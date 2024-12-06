@@ -7,12 +7,13 @@ public class SceneLoader : MonoBehaviour
 {
     public void StartNewGame()
     {
+        Hero.lives = 5f;
         SceneManager.LoadScene("Hub");
         Time.timeScale = 1f;
     }
 
     public void QuitGame()
     {
-        SceneManager.LoadScene("меню");
+        SceneManager.LoadScene("РјРµРЅСЋ");
     }
 }
