@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +8,7 @@ public class Trigger2 : MonoBehaviour
         if (other.tag == "Player")
         {
             SceneManager.LoadScene("SampleScene");
+            
         }
     }
 }
