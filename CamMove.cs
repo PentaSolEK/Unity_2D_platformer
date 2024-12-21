@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CamMove : MonoBehaviour
 {
@@ -7,14 +6,14 @@ public class CamMove : MonoBehaviour
 
     void LateUpdate()
     {
-        // Получаем текущую позицию камеры
+        // РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰СѓСЋ РїРѕР·РёС†РёСЋ РєР°РјРµСЂС‹
         Vector3 clampedPosition = transform.position;
 
-        // Ограничиваем координаты в пределах заданных значений
+        // РћРіСЂР°РЅРёС‡РёРІР°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РІ РїСЂРµРґРµР»Р°С… Р·Р°РґР°РЅРЅС‹С… Р·РЅР°С‡РµРЅРёР№
         clampedPosition.x = Mathf.Clamp(player.transform.position.x, -11, 1000);
-        clampedPosition.y = Mathf.Clamp(player.transform.position.y, 9, 1000);
+        clampedPosition.y = Mathf.Clamp(player.transform.position.y, -10, 1000) + 3;
 
-        // Устанавливаем новую позицию камеры
+        // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕРІСѓСЋ РїРѕР·РёС†РёСЋ РєР°РјРµСЂС‹
         transform.position = clampedPosition;
     }
 
